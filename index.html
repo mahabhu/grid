@@ -76,16 +76,16 @@
         // Convert the grid to a PNG and download it
         document.getElementById('downloadButton').addEventListener('click', () => {
             const canvas = document.createElement('canvas');
-            canvas.width = 100;
-            canvas.height = 100;
+            canvas.width = 500; // Set canvas dimensions to 500x500
+            canvas.height = 500;
             const ctx = canvas.getContext('2d');
 
-            // Draw each pixel onto the canvas
+            // Draw each 5x5 pixel block onto the canvas
             for (let i = 0; i < 100; i++) {
                 for (let j = 0; j < 100; j++) {
                     const color = gridState[i * 100 + j];
                     ctx.fillStyle = color;
-                    ctx.fillRect(j, i, 1, 1);
+                    ctx.fillRect(j * 5, i * 5, 5, 5); // Each button is represented by a 5x5 block
                 }
             }
 
