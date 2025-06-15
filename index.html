@@ -1,48 +1,61 @@
-   <!DOCTYPE html>
-   <html lang="en">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Grid of Buttons</title>
-       <style>
-           body {
-               margin: 0;
-               display: flex;
-               justify-content: center;
-               align-items: center;
-               height: 100vh;
-               background-color: #f0f0f0;
-           }
-           .grid {
-               display: grid;
-               grid-template-columns: repeat(200, 5px);
-               grid-gap: 0px;
-           }
-           .grid button {
-               width: 5px;
-               height: 5px;
-               background-color: white;
-               border: none;
-               padding: 0;
-               box-sizing: border-box;
-               cursor: pointer;
-           }
-       </style>
-   </head>
-   <body>
-       <div class="grid" id="grid"></div>
-       <script>
-           const grid = document.getElementById('grid');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid of Buttons</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(200, 5px);
+            grid-gap: 0px;
+        }
+        .grid button {
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border: none;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid"></div>
+    <script>
+        const grid = document.getElementById('grid');
+        const gridSize = 200 * 200;
 
-           for (let i = 0; i < 200 * 200; i++) {
-               const button = document.createElement('button');
-               button.addEventListener('click', () => {
-                   button.style.backgroundColor = 
-                       button.style.backgroundColor === 'black' ? 'white' : 'black';
-               });
-               grid.appendChild(button);
-           }
-       </script>
-   </body>
-   </html>
-   
+        // Get the saved state from localStorage, if it exists
+        const savedGridState = localStorage.getItem('gridState');
+        const gridState = savedGridState ? JSON.parse(savedGridState) : new Array(gridSize).fill('white');
+
+        // Create the grid and set button colors based on the saved state
+        for (let i = 0; i < gridSize; i++) {
+            const button = document.createElement('button');
+            button.style.backgroundColor = gridState[i];
+            button.addEventListener('click', () => {
+                const newColor = button.style.backgroundColor === 'black' ? 'white' : 'black';
+                button.style.backgroundColor = newColor;
+                gridState[i] = newColor;
+                saveGridState();
+            });
+            grid.appendChild(button);
+        }
+
+        // Save the current grid state to localStorage
+        function saveGridState() {
+            localStorage.setItem('gridState', JSON.stringify(gridState));
+        }
+    </script>
+</body>
+</html>
