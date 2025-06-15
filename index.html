@@ -15,7 +15,7 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(200, 5px);
+            grid-template-columns: repeat(100, 5px);
             grid-gap: 0px;
         }
         .grid button {
@@ -33,7 +33,7 @@
     <div class="grid" id="grid"></div>
     <script>
         const grid = document.getElementById('grid');
-        const gridSize = 200 * 200;
+        const gridSize = 100 * 100;
 
         // Get the saved state from localStorage, if it exists
         const savedGridState = localStorage.getItem('gridState');
