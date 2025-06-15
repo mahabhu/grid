@@ -1,0 +1,48 @@
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Grid of Buttons</title>
+       <style>
+           body {
+               margin: 0;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               height: 100vh;
+               background-color: #f0f0f0;
+           }
+           .grid {
+               display: grid;
+               grid-template-columns: repeat(200, 2px);
+               grid-gap: 0px;
+           }
+           .grid button {
+               width: 2px;
+               height: 2px;
+               background-color: white;
+               border: none;
+               padding: 0;
+               box-sizing: border-box;
+               cursor: pointer;
+           }
+       </style>
+   </head>
+   <body>
+       <div class="grid" id="grid"></div>
+       <script>
+           const grid = document.getElementById('grid');
+
+           for (let i = 0; i < 200 * 200; i++) {
+               const button = document.createElement('button');
+               button.addEventListener('click', () => {
+                   button.style.backgroundColor = 
+                       button.style.backgroundColor === 'black' ? 'white' : 'black';
+               });
+               grid.appendChild(button);
+           }
+       </script>
+   </body>
+   </html>
+   
