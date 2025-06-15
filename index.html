@@ -27,7 +27,7 @@
             box-sizing: border-box;
             cursor: pointer;
         }
-        #resetButton {
+        #resetButton, #downloadButton {
             margin-top: 10px;
             padding: 5px 10px;
             cursor: pointer;
@@ -37,6 +37,7 @@
 <body>
     <div class="grid" id="grid"></div>
     <button id="resetButton">Reset Grid</button>
+    <button id="downloadButton">Download as PNG</button>
     <script>
         const grid = document.getElementById('grid');
         const gridSize = 100 * 100;
@@ -70,6 +71,33 @@
                 button.style.backgroundColor = 'white';
             });
             saveGridState();
+        });
+
+        // Convert the grid to a PNG and download it
+        document.getElementById('downloadButton').addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+
+            // Draw each pixel onto the canvas
+            for (let i = 0; i < 100; i++) {
+                for (let j = 0; j < 100; j++) {
+                    const color = gridState[i * 100 + j];
+                    ctx.fillStyle = color;
+                    ctx.fillRect(j, i, 1, 1);
+                }
+            }
+
+            // Create a PNG and download it
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'grid.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
         });
     </script>
 </body>
