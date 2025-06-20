@@ -10,7 +10,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
+            height: 192vh;
             background-color: #f0f0f0;
         }
         .grid {
@@ -40,9 +40,7 @@
     <button id="downloadButton">Download as PNG</button>
     <script>
         const grid = document.getElementById('grid');
-        const cols = 96;
-        const rows = 192;
-        const gridSize = cols * rows;
+        const gridSize = 96 * 192;
 
         // Get the saved state from localStorage, if it exists
         const savedGridState = localStorage.getItem('gridState');
@@ -78,16 +76,16 @@
         // Convert the grid to a PNG and download it
         document.getElementById('downloadButton').addEventListener('click', () => {
             const canvas = document.createElement('canvas');
-            canvas.width = cols * 5; // 96 * 5 = 480
-            canvas.height = rows * 5; // 192 * 5 = 960
+            canvas.width = 480; // Set canvas dimension
+            canvas.height = 960;
             const ctx = canvas.getContext('2d');
 
             // Draw each 5x5 pixel block onto the canvas
-            for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                    const color = gridState[row * cols + col];
+            for (let i = 0; i < 96; i++) {
+                for (let j = 0; j < 192; j++) {
+                    const color = gridState[i * 96 + j];
                     ctx.fillStyle = color;
-                    ctx.fillRect(col * 5, row * 5, 5, 5);
+                    ctx.fillRect(j * 5, i * 5, 5, 5); // Each button is represented by a 5x5 block
                 }
             }
 
