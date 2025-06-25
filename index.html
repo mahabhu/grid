@@ -11,11 +11,12 @@
             flex-direction: column;
             align-items: center;
             height: 100vh;
+            overflow: auto;
             background-color: #f0f0f0;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(100, 5px);
+            grid-template-columns: repeat(150, 5px);
             grid-gap: 0px;
         }
         .grid button {
@@ -40,9 +41,11 @@
     <button id="downloadButton">Download as PNG</button>
     <script>
         const grid = document.getElementById('grid');
-        const gridSize = 100 * 100;
+        const columns = 150;
+        const rows = 200;
+        const gridSize = columns * rows;
 
-        // Get the saved state from localStorage, if it exists
+        // Load saved grid state from localStorage, if it exists
         const savedGridState = localStorage.getItem('gridState');
         const gridState = savedGridState ? JSON.parse(savedGridState) : new Array(gridSize).fill('white');
 
@@ -76,14 +79,14 @@
         // Convert the grid to a PNG and download it
         document.getElementById('downloadButton').addEventListener('click', () => {
             const canvas = document.createElement('canvas');
-            canvas.width = 500; // Set canvas dimension
-            canvas.height = 500;
+            canvas.width = columns * 5; // Set canvas width to match grid dimensions in pixels
+            canvas.height = rows * 5; // Set canvas height to match grid dimensions in pixels
             const ctx = canvas.getContext('2d');
 
             // Draw each 5x5 pixel block onto the canvas
-            for (let i = 0; i < 100; i++) {
-                for (let j = 0; j < 100; j++) {
-                    const color = gridState[i * 100 + j];
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    const color = gridState[i * columns + j];
                     ctx.fillStyle = color;
                     ctx.fillRect(j * 5, i * 5, 5, 5); // Each button is represented by a 5x5 block
                 }
