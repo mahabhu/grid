@@ -77,30 +77,50 @@
         });
 
         // Convert the grid to a PNG and download it
-        document.getElementById('downloadButton').addEventListener('click', () => {
+        document.getElementById('downloadButton').addEventListener('click', async () => {
+            // Create an off-screen canvas with the correct dimensions
             const canvas = document.createElement('canvas');
-            canvas.width = columns * 5; // 150 columns * 5px each
-            canvas.height = rows * 5; // 200 rows * 5px each
+            const scale = 1; // Keep at 1 for pixel-perfect output
+            canvas.width = columns * 5 * scale;
+            canvas.height = rows * 5 * scale;
             const ctx = canvas.getContext('2d');
-
-            // Draw each 5x5 pixel block onto the canvas
+            
+            // Disable image smoothing for crisp pixels
+            ctx.imageSmoothingEnabled = false;
+            
+            // Fill background with white first
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw each pixel
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < columns; j++) {
                     const color = gridState[i * columns + j];
-                    ctx.fillStyle = color;
-                    ctx.fillRect(j * 5, i * 5, 5, 5); // Each button is represented by a 5x5 block
+                    if (color === 'black') {
+                        ctx.fillStyle = 'black';
+                        ctx.fillRect(j * 5 * scale, i * 5 * scale, 5 * scale, 5 * scale);
+                    }
                 }
             }
 
-            // Create a PNG and download it
-            canvas.toBlob((blob) => {
+            // Create a blob and download it
+            try {
+                const blob = await new Promise((resolve) => {
+                    canvas.toBlob(resolve, 'image/png', 1);
+                });
+                
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'grid.png';
+                a.download = 'pixel-grid.png';
+                document.body.appendChild(a);
                 a.click();
-                URL.revokeObjectURL(url);
-            });
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+            } catch (error) {
+                console.error('Error generating image:', error);
+                alert('Error generating image. Please try again.');
+            }
         });
     </script>
 </body>
