@@ -41,8 +41,8 @@
     <button id="downloadButton">Download as PNG</button>
     <script>
         const grid = document.getElementById('grid');
-        const columns = 150;
-        const rows = 200;
+        const columns = 150; // Number of columns
+        const rows = 200; // Number of rows
         const gridSize = columns * rows;
 
         // Load saved grid state from localStorage, if it exists
@@ -79,8 +79,8 @@
         // Convert the grid to a PNG and download it
         document.getElementById('downloadButton').addEventListener('click', () => {
             const canvas = document.createElement('canvas');
-            canvas.width = columns * 5; // Set canvas width to match grid dimensions in pixels
-            canvas.height = rows * 5; // Set canvas height to match grid dimensions in pixels
+            canvas.width = columns * 5; // 150 columns * 5px each
+            canvas.height = rows * 5; // 200 rows * 5px each
             const ctx = canvas.getContext('2d');
 
             // Draw each 5x5 pixel block onto the canvas
